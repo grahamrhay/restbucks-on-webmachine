@@ -1,0 +1,18 @@
+%%-*- mode: erlang -*-
+{application, restbucks,
+ [
+  {description, "restbucks"},
+  {vsn, "1"},
+  {modules, []},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib,
+                  inets,
+                  crypto,
+                  mochiweb,
+                  webmachine
+                 ]},
+  {mod, { restbucks_app, []}},
+  {env, []}
+ ]}.
