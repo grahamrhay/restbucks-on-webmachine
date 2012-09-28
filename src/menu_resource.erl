@@ -4,6 +4,7 @@
 -include_lib("webmachine/include/webmachine.hrl").
 
 init(Config) ->
+    restbucks_schema:populate_products(),
     {{trace, "traces"}, Config}.
 
 content_types_provided(ReqData, State) ->
@@ -19,29 +20,7 @@ get_menu() ->
     ]}.
 
 get_menu_items() ->
-    [
-        { struct, [
-            { 'Name', <<"Cappucino">> },
-            { 'Price', 6.70 }
-        ]},
-        { struct, [
-            { 'Name', <<"Cookie">> },
-            { 'Price', 1.00 }
-        ]},
-        { struct, [
-            { 'Name', <<"Espresso">> },
-            { 'Price', 6.90 }
-        ]},
-        { struct, [
-            { 'Name', <<"Hot Chocolate">> },
-            { 'Price', 10.50 }
-        ]},
-        { struct, [
-            { 'Name', <<"Latte">> },
-            { 'Price', 7.60 }
-        ]},
-        { struct, [
-            { 'Name', <<"Tea">> },
-            { 'Price', 8.40 }
-        ]}
-    ].
+    Products = restbucks_schema:get_all_products(),
+    ProductToJson = fun({restbucks_product, Name, Price}) -> { struct, [ { 'Name', erlang:iolist_to_binary(Name) }, { 'Price', Price }]} end,
+    lists:map(ProductToJson, Products).
+
