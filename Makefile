@@ -17,3 +17,7 @@ distclean: clean
 
 docs:
 	@erl -noshell -run edoc_run application '$(APP)' '"."' '[]'
+
+tests:
+	@erl -pa ebin -run schema_tests test -run init stop
+
