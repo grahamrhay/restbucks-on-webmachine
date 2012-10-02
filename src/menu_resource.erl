@@ -12,7 +12,8 @@ content_types_provided(ReqData, State) ->
 
 to_json(ReqData, State) ->
     Response = mochijson2:encode(get_menu()),
-    {Response, ReqData, State}.
+    UpdatedReqData = wrq:set_resp_header("Access-Control-Allow-Origin", "*", ReqData),
+    { Response, UpdatedReqData, State }.
 
 get_menu() ->
     { struct, [
